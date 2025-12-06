@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStart Portal - Profile</title>
+    <style>
+        /* same base styling as your existing profile.html */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .navbar {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 { margin: 0; }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .profile-body { padding: 40px; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .info-item {
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .info-item label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .info-item p { font-size: 16px; color: #333; }
+        .flash {
+            padding: 10px;
+            margin: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .flash.success {
+            background: #efe; color: #3c3; border: 1px solid #cfc;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h2>🎓 TechStart Student Portal</h2>
+    <div>
+        <a href="/projects">Projects</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="profile-container">
+    <div class="profile-header">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image }}" alt="Profile" class="profile-image">
+        {% else %}
+          <img src="https://via.placeholder.com/150" alt="Profile" class="profile-image">
+        {% endif %}
+        <h1>{{ user.full_name }}</h1>
+        <p>@{{ user.username }} · {{ user.role|capitalize }}</p>
+    </div>
+
+    <div class="profile-body">
+        <h2 style="margin-bottom: 20px; color: #333;">Profile Information</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Email Address</label>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="info-item">
+                <label>Department</label>
+                <p>{{ user.department }}</p>
+            </div>
+            <div class="info-item">
+                <label>Username</label>
+                <p>{{ user.username }}</p>
+            </div>
+            <div class="info-item">
+                <label>Member Since</label>
+                <p>{{ user.created_date }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
