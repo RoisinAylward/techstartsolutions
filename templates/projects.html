@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TechStart Portal - Projects</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f5f5f5; padding:20px; }
+        .navbar {
+            background:#667eea; color:white; padding:15px 30px;
+            border-radius:10px; margin-bottom:30px; display:flex;
+            justify-content:space-between; align-items:center;
+        }
+        .navbar a {
+            color:white; text-decoration:none; padding:8px 16px;
+            background:rgba(255,255,255,0.2); border-radius:5px;
+            margin-left:10px;
+        }
+        table { width:100%; border-collapse:collapse; background:white; border-radius:10px; overflow:hidden; }
+        th, td { padding:12px 15px; border-bottom:1px solid #eee; text-align:left; }
+        th { background:#f0f0ff; }
+        .flash { margin-bottom:15px; padding:10px; border-radius:5px; }
+        .flash.success { background:#efe; border:1px solid #cfc; color:#3c3; }
+        .flash.error { background:#fee; border:1px solid #fcc; color:#c33; }
+        .actions form { display:inline; }
+        .btn { padding:6px 10px; border-radius:4px; border:none; cursor:pointer; font-size:12px; }
+        .btn-primary { background:#667eea; color:white; }
+        .btn-danger { background:#e53e3e; color:white; }
+        .btn-small { font-size:11px; padding:4px 8px; }
+        .top-bar { display:flex; justify-content:space-between; margin-bottom:15px; }
+        .tag { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; background:#edf2ff; color:#3730a3; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h2>📂 Projects</h2>
+    <div>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="top-bar">
+    <div>
+        <span class="tag">Role: {{ current_role|capitalize }}</span>
+    </div>
+
+    {% if current_role in ['developer', 'pm'] %}
+      <div>
+          <a href="{{ url_for('project_create') }}" class="btn btn-primary">+ New Project</a>
+      </div>
+    {% endif %}
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in projects %}
+      <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.owner }}</td>
+          <td>{{ p.status }}</td>
+          <td>{{ p.created_at }}</td>
+          <td class="actions">
+              {% if current_role in ['developer', 'pm'] %}
+                <a class="btn btn-small btn-primary"
+                   href="{{ url_for('project_edit', project_id=p.id) }}">Edit</a>
+              {% endif %}
+              {% if current_role == 'developer' %}
+                <form method="POST"
+                      action="{{ url_for('project_delete', project_id=p.id) }}"
+                      onsubmit="return confirm('Delete this project?');">
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
+              {% endif %}
+          </td>
+      </tr>
+    {% endfor %}
+    {% if projects|length == 0 %}
+      <tr><td colspan="6">No projects yet.</td></tr>
+    {% endif %}
+    </tbody>
+</table>
+</body>
+</html>
