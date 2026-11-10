@@ -1,0 +1,6 @@
+# /etc/ssh/sshd_config (excerpt: only the lines I changed from the Ubuntu 24.04 default)
+# Key-based login only, and no root login over SSH.
+
+PermitRootLogin no
+PubkeyAuthentication yes
+PasswordAuthentication no

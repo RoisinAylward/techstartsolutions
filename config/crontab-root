@@ -1,0 +1,3 @@
+# root crontab (sudo crontab -l), default comments removed
+# m h  dom mon dow   command
+0 2 * * * /usr/local/bin/backup_webapp.sh >> /var/log/backup_webapp.log 2>&1
