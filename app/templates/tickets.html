@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Tickets</h1>
+
+  <div class="actions">
+    {% if user.role == "developer" %}
+      <a class="button" href="{{ url_for('ticket_create') }}">+ New Ticket</a>
+    {% endif %}
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Title</th><th>Status</th><th>Created</th><th>By</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in tickets %}
+          <tr>
+            <td>{{ t.ticket_id }}</td>
+            <td><a href="{{ url_for('ticket_view', ticket_id=t.ticket_id) }}">{{ t.title }}</a></td>
+            <td>{{ t.status }}</td>
+            <td>{{ t.created_at }}</td>
+            <td>{{ t.created_by }}</td>
+            <td class="right">
+              {% if user.role == "developer" %}
+                <a href="{{ url_for('ticket_edit', ticket_id=t.ticket_id) }}">Edit</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6" class="muted">No tickets yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

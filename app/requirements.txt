@@ -1,0 +1,6 @@
+Flask>=3.0
+pyodbc>=5.1
+Werkzeug>=3.0
+azure-identity>=1.16
+azure-keyvault-secrets>=4.8
+azure-storage-blob>=12.20

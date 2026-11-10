@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ "Create Ticket" if mode == "create" else "Edit Ticket" }}</h1>
+
+  <form method="POST" enctype="multipart/form-data" class="card">
+    <label>Title
+      <input name="title" value="{{ ticket.title or '' }}" required />
+    </label>
+
+    <label>Status
+      <select name="status">
+        {% for s in ["open","in_progress","done"] %}
+          <option value="{{ s }}" {% if ticket.status == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label>Description
+      <textarea name="description" rows="6">{{ ticket.description or '' }}</textarea>
+    </label>
+
+    <label>Attachment (optional)
+      <input type="file" name="attachment" />
+    </label>
+
+    <div class="row">
+      <button type="submit">Save</button>
+      <a class="button secondary" href="{{ url_for('tickets') }}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

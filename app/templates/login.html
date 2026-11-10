@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Login</h1>
+  <form method="POST" class="card">
+    <label>Username
+      <input name="username" required />
+    </label>
+    <label>Password
+      <input type="password" name="password" required />
+    </label>
+    <button type="submit">Login</button>
+  </form>
+  <p class="muted">Demo roles: developer / qa / pm (role decides what actions you can do).</p>
+{% endblock %}

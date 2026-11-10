@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Profile</h1>
+  <div class="card">
+    <p><b>Username:</b> {{ user.username }}</p>
+    <p><b>Full name:</b> {{ user.full_name }}</p>
+    <p><b>Role:</b> {{ user.role }}</p>
+  </div>
+
+  <p><a class="link" href="{{ url_for('tickets') }}">Go to Tickets</a></p>
+{% endblock %}

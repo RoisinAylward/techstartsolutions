@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Ticket #{{ ticket.ticket_id }}</h1>
+  <div class="card">
+    <p><b>Title:</b> {{ ticket.title }}</p>
+    <p><b>Status:</b> {{ ticket.status }}</p>
+    <p><b>Created:</b> {{ ticket.created_at }} by {{ ticket.created_by }}</p>
+    <hr />
+    <p style="white-space:pre-wrap">{{ ticket.description }}</p>
+
+    {% if attachment_url %}
+      <p><b>Attachment:</b> <a href="{{ attachment_url }}" target="_blank" rel="noopener">Open (SAS link)</a></p>
+    {% endif %}
+  </div>
+
+  <div class="row">
+    <a class="button secondary" href="{{ url_for('tickets') }}">Back</a>
+
+    {% if user.role == "developer" %}
+      <a class="button" href="{{ url_for('ticket_edit', ticket_id=ticket.ticket_id) }}">Edit</a>
+      <form method="POST" action="{{ url_for('ticket_delete', ticket_id=ticket.ticket_id) }}" style="display:inline"
+            onsubmit="return confirm('Delete this ticket?');">
+        <button class="danger" type="submit">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
